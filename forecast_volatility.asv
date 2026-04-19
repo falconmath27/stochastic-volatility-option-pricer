@@ -1,0 +1,24 @@
+function sigma = forecast_voltility(returns, ndays)
+
+try
+    Mdl = egarch('GARCHLags', 1 , 'ARCHLags',1 ,'LeverageLags',1);
+
+    % EstMdl is a model , that takes in the returns as input, and
+    % calculated the mathematical weights that are alpha, beta, gamma)
+    EstMdl = estimate(Mdl, returns, 'Display',off);
+
+    % Check if the estimation was successful
+    if isempty(EstMdl)
+        error('Model estimation failed. Please check the input data.');
+    end
+
+    % Forecast the volatility for the specified number of days (30)
+    vForecast = forecast(EstMdl, ndays, 'Y0', returns);
+
+    % converting daily voa
+    sigma = (sqrt(vForecast)/100)*sqrt(252);
+
+catch
+    warning('Missing! Using fallback constant volatility');
+    sigma = repmat(0.4, ndays, 1);
+end
