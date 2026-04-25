@@ -19,7 +19,7 @@ V(:, N+1) = max(K-S, 0);
 i = (1:M-1)'; % grid points
 
 for j = N:-1:1
-    sig = sigma(j)
+    sig = sigma(j);
 
     alpha = 0.25 * dt * (sig^2 * i.^2 - (r - D) * i);
     beta  = -0.5 * dt * (sig^2 * i.^2 + r);
