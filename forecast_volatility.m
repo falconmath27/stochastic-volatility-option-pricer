@@ -1,6 +1,5 @@
 function sigma = forecast_volatility(returns, ndays)
 
-%try
     Mdl = egarch('GARCHLags', 1 , 'ARCHLags',1 ,'LeverageLags',1);
 
     % EstMdl is a model , that takes in the returns as input, and
@@ -18,8 +17,5 @@ function sigma = forecast_volatility(returns, ndays)
     % annualizing daily volatility, standard days of trading in india = 252
     sigma = (sqrt(vForecast)/100);
 
-%catch
-    % if EGARCH not available taking constant volatility = 0.4
-    %warning('Missing! Using fallback constant volatility');
-    %sigma = repmat(0.4, ndays, 1);
+
 end

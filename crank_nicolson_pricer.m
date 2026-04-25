@@ -29,7 +29,7 @@ for j = N:-1:1
     X = diag(1 + beta) + diag(alpha(2:end), -1) + diag(gamma(1:end-1), 1);
 
     %Boundary conditions
-    V(1,j) = K * exp(-r * (T - j*dt));
+    V(1,j) = K * exp(-r * (N + 1 - j) * dt);
     V(M+1,j) = 0;
 
     % Right-Hand Side
