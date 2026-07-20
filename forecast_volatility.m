@@ -16,6 +16,4 @@ function sigma = forecast_volatility(returns, ndays)
 
     % annualizing daily volatility, standard days of trading in india = 252
     sigma = (sqrt(vForecast)/100);
-
-
 end

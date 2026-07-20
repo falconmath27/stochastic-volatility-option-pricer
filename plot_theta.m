@@ -1,19 +1,19 @@
 function plot_theta(sigma, ndays)
    
-    K_list = [20, 22, 24, 26];
+    T = [1/12 1/6 1/4 1/3];
     line_styles = {'r:', 'g-.', 'b--', 'k-'}; 
-    r = 0.08; D = 0.10; T = 1/12; 
+    r = 0.08; D = 0.10; K = 20;
     Smax = 50; M = 200; N = ndays;
     dt = T/N;
     
-    fig = figure('Name', 'Theta Comparison');
+    
     hold on;
    
     sigma_val = mean(sigma);
     
-    for i = 1:length(K_list)
-        K = K_list(i);
-        [V, S] = crank_nicolson_pricer(K, r, D, T, Smax, M, N, sigma);
+    for i = 1:length(T)
+        Ti = T(i);
+        [V, S] = crank_nicolson_pricer(K, r, D, Ti, Smax, M, N, sigma);
         
         dS = S(2) - S(1);
         Delta = zeros(size(S));
@@ -28,11 +28,11 @@ function plot_theta(sigma, ndays)
         Theta = r .* V(:, 1) - (r - D) .* S .* Delta - 0.5 * sigma_val^2 .* (S.^2) .* Gamma;
         
         plot(S, Theta, line_styles{i}, 'LineWidth', 1.5, ...
-            'DisplayName', ['K=$', num2str(K)]);
+            'DisplayName', ['T=', num2str(360*Ti)]);
     end
     xlabel('Stock Price');
     ylabel('Theta');
-    title('Theta vs Stock Price for Various Strike Prices');
+    title('Theta vs Stock Price for Time');
     legend('show', 'Location', 'best');
     xlim([0 50]); ylim([-8 0.5]); 
      

@@ -1,5 +1,8 @@
 # Stochastic Volatility Option Pricer
 
+> QuantLab's Python implementation targets **Python 3.14**. The existing MATLAB
+> implementation is retained as the numerical-method prototype.
+
 A MATLAB-based option pricing project that combines:
 
 - **EGARCH(1,1)** volatility forecasting from historical returns
@@ -39,6 +42,23 @@ The model uses ONGC historical price data and solves a modified Black-Scholes PD
 - (Optional) Python 3 + `yfinance` to refresh market data
 
 ## How to Run
+
+### Download historical data
+
+```powershell
+.\.venv\Scripts\python.exe data_extractor.py
+```
+
+This creates `ONGC_prices.csv` with Date, Open, High, Low, Close, Volume,
+Daily_Return, and Log_Return columns.
+
+### Download the option chain
+
+```powershell
+.\.venv\Scripts\python.exe option_chain_extractor.py
+```
+
+This saves separate CSV files for calls and puts at the nearest available expiry.
 
 1. Ensure `ONGC_prices.csv` is in the project root.  
    To regenerate it:

@@ -33,32 +33,36 @@ sigma = forecast_volatility(returns, ndays);
 
 line_styles = {'r:', 'g-.', 'b--', 'k-'}; 
 disp('Solving PDE')
-K = [20 22 24 26];
+K = 20;
 r = 0.08;
 D = 0.1;
-T = 1/12;
+T = [1/12 1/6 1/4 1/3];
 Smax = 50;
 M = 100;
 N = ndays;
 
 disp('plotting the graphs');
 figure;
-hold on;
 
-for i = 1:length(K)
-    [V,S] = crank_nicolson_pricer(K(i),r,D,T,Smax,M,N,sigma);
-    plot(S, V(:, 1), line_styles{i}, 'LineWidth', 2, 'DisplayName', ['K = $', num2str(K(i))]);
+subplot(2,2,1);
+hold on;
+for i = 1:length(T)
+    [V,S] = crank_nicolson_pricer(K,r,D,T(i),Smax,M,N,sigma);
+    plot(S, V(:, 1), line_styles{i}, 'LineWidth', 2, 'DisplayName', ['T = ', num2str(360*T(i))]);
 end
 
 legend('Location', 'northeast');
 
 xlabel('Stock Price (S)');
 ylabel('Option Price (V)');
-title('Option Price vs Stock Price for Multiple Strikes');
+title('Option Price vs Stock Price for Time');
 grid on;
 hold off;
 
 % plotting the greeks graph
+subplot(2,2,2);
 plot_delta(sigma, ndays);
+subplot(2,2,3);
 plot_gamma(sigma, ndays);
+subplot(2,2,4);
 plot_theta(sigma, ndays);
